@@ -78,6 +78,22 @@ body {
 }
 .upload-btn:hover { background: #4338ca; }
 
+.copy-btn {
+  background: transparent;
+  color: #4F46E5;
+  border: 1.5px solid #c7d2fe;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.copy-btn:hover { background: #eef2ff; border-color: #a5b4fc; }
+.copy-btn:active { background: #e0e7ff; }
+
 .fit-btn {
   background: transparent;
   color: #64748b;
