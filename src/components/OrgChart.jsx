@@ -6,7 +6,7 @@ export const NODE_W = 160
 export const NODE_H = 68
 const H_GAP = 14
 const V_GAP = 56
-const MAX_COLS = 4
+const MAX_ROWS = 2
 
 function expandRows(rows) {
   const out = []
@@ -32,7 +32,7 @@ function computeSize(node) {
   node.children.forEach(computeSize)
 
   const n = node.children.length
-  const cols = Math.min(n, MAX_COLS)
+  const cols = Math.max(Math.ceil(n / MAX_ROWS), 1)
   const numRows = Math.ceil(n / cols)
   let maxW = NODE_W
   let totalH = NODE_H + V_GAP
@@ -55,7 +55,7 @@ function assignPositions(node, cx, y) {
   if (!node.children?.length) return
 
   const n = node.children.length
-  const cols = Math.min(n, MAX_COLS)
+  const cols = Math.max(Math.ceil(n / MAX_ROWS), 1)
   const numRows = Math.ceil(n / cols)
   let rowY = y + NODE_H + V_GAP
 

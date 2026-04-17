@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-export default function CSVUploader({ onFile }) {
+export default function CSVUploader({ onFile, label = 'Upload CSV', className = 'upload-btn' }) {
   const inputRef = useRef(null)
 
   const handleChange = (e) => {
@@ -11,8 +11,8 @@ export default function CSVUploader({ onFile }) {
 
   return (
     <>
-      <button className="upload-btn" onClick={() => inputRef.current.click()}>
-        Upload CSV
+      <button className={className} onClick={() => inputRef.current.click()}>
+        {label}
       </button>
       <input
         ref={inputRef}

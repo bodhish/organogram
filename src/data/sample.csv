@@ -29,8 +29,8 @@ id,name,title,department,manager_id,is_open
 28,Pinaki,Director — Resources & Growth,Partnerships,5,false
 29,Suma,Lead — Stakeholder Impact & Adoption,Partnerships,5,false
 30,Partnership & Growth Lead,Partnership & Growth,Partnerships,5,true
-31,Gouri,Community Manager,Operations,5,false
-32,Community Manager,Community Manager,Operations,5,true
+31,Gouri,Community Manager,HR,7,false
+32,Community Manager,Community Manager,HR,7,true
 33,Internal Auditor,Internal Auditor,Finance,6,true
 34,HR — Tech Talent,HR — Tech Talent Acquisition,HR,7,true
-35,Admin — Office Ops,Admin — Office Operations,HR,7,true
+35,Admin — Office Ops,Admin — Office Operations,Finance,6,true
