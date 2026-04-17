@@ -4,17 +4,29 @@ An open-source, browser-based org chart builder. Upload a CSV, get an interactiv
 
 **[Try it live →](https://organogram.pages.dev)** · [GitHub](https://github.com/bodhish/organogram)
 
-![Organogram screenshot](docs/screenshot.png)
+---
 
 ## Features
 
-- **CSV-driven** — paste or upload a spreadsheet; the chart renders instantly
+- **CSV-driven** — upload a spreadsheet or paste data; the chart renders instantly
 - **N× open positions** — write `3× Frontend Engineers` and get 3 individual open-position cards
-- **Shareable links** — the entire dataset encodes into the URL; share with anyone
+- **Shareable links** — the entire dataset encodes into the URL; share with anyone, no login required
 - **Local storage** — save multiple organograms and manage them from the home page
 - **Edit in-browser** — spreadsheet-style panel to change names, titles, reporting lines, and open/filled status without touching a file
 - **Department colours** — each department auto-gets a colour; a legend is shown on the chart
 - **Pan & zoom** — drag to pan, scroll/pinch to zoom, ⊡ to fit everything on screen
+
+---
+
+## Use with AI
+
+Ask Claude (or any AI with the organogram skill) to build you an org chart:
+
+> *"Build me an organogram for a 10-person startup: Sarah is CEO, Tom is CTO and Priya is CPO reporting to Sarah, 3 open engineering roles under Tom, 2 open design roles under Priya."*
+
+Claude will generate the CSV, encode it, and hand you a ready-to-open URL at `organogram.pages.dev`.
+
+---
 
 ## CSV format
 
@@ -44,6 +56,8 @@ id,name,title,department,manager_id,is_open
 
 This single row expands into **three** individual "Open Position" cards, all reporting to id `9`. Use either `×` (multiplication sign) or `x` (letter).
 
+---
+
 ## Getting started
 
 ```bash
@@ -64,13 +78,17 @@ npm run build
 
 The built output is a fully static site — drop `dist/` into any static host (Cloudflare Pages, Vercel, Netlify, GitHub Pages).
 
+---
+
 ## Tech stack
 
 - [React 19](https://react.dev) + [Vite 8](https://vite.dev)
 - [d3-hierarchy](https://d3js.org/d3-hierarchy) for tree structure
 - [PapaParse](https://www.papaparse.com) for CSV parsing
-- Custom compact layout engine (no d3-layout — children wrap into at most 2 rows per parent)
-- URL-safe base64 encoding for shareable links
+- Custom compact layout engine (children wrap into at most 2 rows per parent)
+- URL-safe base64 encoding for shareable links — no server required
+
+---
 
 ## Contributing
 
@@ -83,6 +101,8 @@ Bug reports, feature ideas, and pull requests are welcome.
 
 Please keep PRs focused — one feature or fix per PR.
 
+---
+
 ## Deploying to Cloudflare Pages
 
 ```bash
@@ -94,6 +114,8 @@ wrangler pages deploy dist --project-name organogram
 ```
 
 For auto-deploys on every push, connect the GitHub repo in the [Cloudflare Pages dashboard](https://pages.cloudflare.com).
+
+---
 
 ## License
 
