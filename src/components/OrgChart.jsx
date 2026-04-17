@@ -32,7 +32,8 @@ function computeSize(node) {
   node.children.forEach(computeSize)
 
   const n = node.children.length
-  const cols = Math.max(Math.ceil(n / MAX_ROWS), 1)
+  // Virtual root: force all roots into a single row so they sit side-by-side at the top
+  const cols = node.id === VIRTUAL_ROOT_ID ? n : Math.max(Math.ceil(n / MAX_ROWS), 1)
   const numRows = Math.ceil(n / cols)
   let maxW = NODE_W
   let totalH = NODE_H + V_GAP
@@ -55,7 +56,7 @@ function assignPositions(node, cx, y) {
   if (!node.children?.length) return
 
   const n = node.children.length
-  const cols = Math.max(Math.ceil(n / MAX_ROWS), 1)
+  const cols = node.id === VIRTUAL_ROOT_ID ? n : Math.max(Math.ceil(n / MAX_ROWS), 1)
   const numRows = Math.ceil(n / cols)
   let rowY = y + NODE_H + V_GAP
 
