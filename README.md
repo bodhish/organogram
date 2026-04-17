@@ -2,7 +2,7 @@
 
 An open-source, browser-based org chart builder. Upload a CSV, get an interactive org chart. No account, no server, no dependencies beyond your browser.
 
-**[Try it live →](https://organogram.pages.dev)**
+**[Try it live →](https://organogram.pages.dev)** · [GitHub](https://github.com/bodhish/organogram)
 
 ![Organogram screenshot](docs/screenshot.png)
 
@@ -85,12 +85,15 @@ Please keep PRs focused — one feature or fix per PR.
 
 ## Deploying to Cloudflare Pages
 
-1. Push to GitHub (this repo)
-2. Go to [Cloudflare Pages](https://pages.cloudflare.com) → Create a project → Connect to Git
-3. Select this repo
-4. Set build command: `npm run build`
-5. Set output directory: `dist`
-6. Deploy
+```bash
+npm install -g wrangler
+wrangler login
+npm run build
+wrangler pages project create organogram --production-branch main
+wrangler pages deploy dist --project-name organogram
+```
+
+For auto-deploys on every push, connect the GitHub repo in the [Cloudflare Pages dashboard](https://pages.cloudflare.com).
 
 ## License
 
