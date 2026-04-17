@@ -14,10 +14,10 @@ export function getDeptColor(dept) {
 }
 
 export default function OrgNode({ node, width, height }) {
-  const { data, depth } = node
+  const { data } = node
   const color = getDeptColor(data.department)
   const isOpen = data.is_open === 'true'
-  const isRoot = depth === 0
+  const isRoot = node.isRoot ?? node.depth === 0
 
   return (
     <div

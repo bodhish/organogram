@@ -72,16 +72,36 @@ function assignPositions(node, cx, y) {
   }
 }
 
+const VIRTUAL_ROOT_ID = '__vroot__'
+
 function buildChart(rows) {
+  const expanded = expandRows(rows)
+  const rootRows = expanded.filter(r => !r.manager_id)
+  const multiRoot = rootRows.length > 1
+
+  const data = multiRoot
+    ? [
+        { id: VIRTUAL_ROOT_ID, name: '', title: '', department: '', manager_id: '', is_open: 'false' },
+        ...expanded.map(r => r.manager_id ? r : { ...r, manager_id: VIRTUAL_ROOT_ID }),
+      ]
+    : expanded
+
   const root = stratify()
     .id(d => d.id)
-    .parentId(d => d.manager_id || null)(expandRows(rows))
+    .parentId(d => d.manager_id || null)(data)
 
   computeSize(root)
   assignPositions(root, 0, 0)
 
+  // When a virtual root exists, shift all real nodes up so they start at y=0
+  if (multiRoot) {
+    const shift = NODE_H + V_GAP
+    root.each(n => { if (n.id !== VIRTUAL_ROOT_ID) n.y -= shift })
+  }
+
   let minX = Infinity, maxX = -Infinity, maxY = -Infinity
   root.each(n => {
+    if (n.id === VIRTUAL_ROOT_ID) return
     minX = Math.min(minX, n.x - NODE_W / 2)
     maxX = Math.max(maxX, n.x + NODE_W / 2)
     maxY = Math.max(maxY, n.y + NODE_H)
@@ -94,9 +114,18 @@ function buildChart(rows) {
 
   const nodes = [], links = []
 
-  root.each(n => nodes.push({ ...n, x: n.x + offsetX, y: n.y + pad }))
+  root.each(n => {
+    if (n.id === VIRTUAL_ROOT_ID) return
+    nodes.push({
+      ...n,
+      x: n.x + offsetX,
+      y: n.y + pad,
+      isRoot: n.depth === 0 || (multiRoot && n.depth === 1),
+    })
+  })
 
   root.links().forEach(({ source: s, target: t }) => {
+    if (s.id === VIRTUAL_ROOT_ID) return
     const sx = s.x + offsetX
     const sy = s.y + pad + NODE_H
     const tx = t.x + offsetX
@@ -140,10 +169,11 @@ export default function OrgChart({ rows }) {
     if (fitScale >= 0.28) {
       setTf({ x: (vw - width * fitScale) / 2, y: 24, scale: fitScale })
     } else {
-      // Too small to read — center on root at comfortable zoom
-      const root = nodes.find(n => n.depth === 0)
+      // Too small to read — center on root(s) at comfortable zoom
+      const rootNodes = nodes.filter(n => n.isRoot)
+      const cx = rootNodes.length === 1 ? rootNodes[0].x : width / 2
       const s = Math.min(0.7, vh / height * 0.88)
-      setTf({ x: vw / 2 - (root?.x ?? width / 2) * s, y: 24, scale: s })
+      setTf({ x: vw / 2 - cx * s, y: 24, scale: s })
     }
   }, [nodes, width, height])
 
