@@ -1,36 +1,35 @@
 id,name,title,department,manager_id,is_open
-1,Bodhish,CEO — Product · AI · Leadership,Leadership,,false
-2,Vignesh,CTO — Architecture & Engineering,Engineering,1,false
-3,Vinu,Lead UI/UX Designer,Design,1,false
-4,Aravind,Senior Product Manager,Product,1,false
-5,Sanjay,Exec Director — Strategic Operations,Operations,1,false
-6,Rajesh,Finance & Internal Auditor,Finance,1,false
-7,HR & Admin Manager,Manager — HR & Admin,HR,1,true
+1,Alex Morgan,CEO — Product · AI · Strategy,Leadership,,false
+2,Sam Rivera,CTO — Architecture & Engineering,Engineering,1,false
+3,Jordan Lee,Lead UI/UX Designer,Design,1,false
+4,Chris Taylor,Head of Product,Product,1,false
+5,Morgan Davis,VP — Strategic Operations,Operations,1,false
+6,Riley Chen,Finance & Audit Director,Finance,1,false
+7,Casey Kim,HR & Admin Manager,HR,1,false
 8,Sr. Backend Engineer,Senior Backend Engineer,Engineering,2,true
-9,Amjith,Senior Frontend Engineer,Engineering,2,false
-10,Sr. Frontend Engineer,Senior Frontend Engineer,Engineering,2,true
-11,Sr. AI & Data Engineer,Senior AI & Data Engineer,Engineering,2,true
-12,Sr. Devops Engineer,Senior Devops Engineer,Engineering,2,true
-13,Prafful,Product Engineer — Backend,Engineering,8,false
-14,Nandkishore,Product Engineer — Backend,Engineering,8,false
-15,2× Backend Engineers,Product Engineer — Backend,Engineering,8,true
-16,Yaswanth,Product Engineer — Frontend,Engineering,9,false
-17,Nikhila,Product Engineer — Frontend,Engineering,9,false
-18,Abhimanyu,Product Engineer — Frontend,Engineering,9,false
-19,3× Frontend Engineers,Product Engineer — Frontend,Engineering,9,true
-20,Sona,Product Engineer — AI & Data,Engineering,11,false
-21,AI & Data Engineer,Product Engineer — AI & Data,Engineering,11,true
-22,2× Devops Engineers,Product Engineer — Devops,Engineering,12,true
-23,2× UI/UX Designers,UI/UX Designer,Design,3,true
-24,Sr. Product Manager,Senior Product Manager,Product,4,true
-25,Bill,Product Manager,Product,4,false
-26,7× Product Managers,Product Manager,Product,4,true
-27,Renjith Balaji,Head — Social Policy,Partnerships,5,false
-28,Pinaki,Director — Resources & Growth,Partnerships,5,false
-29,Suma,Lead — Stakeholder Impact & Adoption,Partnerships,5,false
-30,Partnership & Growth Lead,Partnership & Growth,Partnerships,5,true
-31,Gouri,Community Manager,HR,7,false
-32,Community Manager,Community Manager,HR,7,true
-33,Internal Auditor,Internal Auditor,Finance,6,true
-34,HR — Tech Talent,HR — Tech Talent Acquisition,HR,7,true
-35,Admin — Office Ops,Admin — Office Operations,Finance,6,true
+9,Dana Park,Senior Frontend Engineer,Engineering,2,false
+10,Avery Stone,Senior AI & Data Engineer,Engineering,2,false
+11,Blake Torres,Senior DevOps Engineer,Engineering,2,false
+12,Reese Campbell,Product Engineer — Backend,Engineering,8,false
+13,Drew Mitchell,Product Engineer — Backend,Engineering,8,false
+14,2× Backend Engineers,Product Engineer — Backend,Engineering,8,true
+15,Jamie Nguyen,Product Engineer — Frontend,Engineering,9,false
+16,Taylor Singh,Product Engineer — Frontend,Engineering,9,false
+17,Quinn Brooks,Product Engineer — Frontend,Engineering,9,false
+18,3× Frontend Engineers,Product Engineer — Frontend,Engineering,9,true
+19,Alex Wu,Product Engineer — AI & Data,Engineering,10,false
+20,AI & Data Engineer,Product Engineer — AI & Data,Engineering,10,true
+21,2× DevOps Engineers,Product Engineer — DevOps,Engineering,11,true
+22,2× UI/UX Designers,UI/UX Designer,Design,3,true
+23,Logan Foster,Senior Product Manager,Product,4,true
+24,Erin Walsh,Product Manager,Product,4,false
+25,5× Product Managers,Product Manager,Product,4,true
+26,Parker James,Head — Social Policy,Partnerships,5,false
+27,Spencer Grant,Director — Resources & Growth,Partnerships,5,false
+28,Robin Elliott,Lead — Stakeholder Adoption,Partnerships,5,false
+29,Partnership Lead,Partnership & Growth,Partnerships,5,true
+30,Hayden Scott,Community Manager,HR,7,false
+31,Community Manager,Community Manager,HR,7,true
+32,Internal Auditor,Internal Auditor,Finance,6,true
+33,HR — Tech Talent,HR Tech Talent Acquisition,HR,7,true
+34,Admin — Office Ops,Admin — Office Operations,Finance,6,true

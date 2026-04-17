@@ -9,7 +9,7 @@ function timeAgo(ts) {
   return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
-export default function HomePage({ orgs, onOpen, onNew, onDelete, onDuplicate, onFile, onSample }) {
+export default function HomePage({ orgs, onOpen, onNew, onDelete, onDuplicate, onFile, onSample, onDocs }) {
   return (
     <div className="home">
       <header className="header">
@@ -27,6 +27,7 @@ export default function HomePage({ orgs, onOpen, onNew, onDelete, onDuplicate, o
           <span className="app-name">Organogram</span>
         </div>
         <div className="header-right">
+          <button className="fit-btn" onClick={onDocs}>Docs</button>
           <CSVUploader onFile={onFile} label="Import CSV" className="copy-btn" />
           <button className="upload-btn" onClick={onNew}>+ New</button>
         </div>

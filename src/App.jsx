@@ -4,6 +4,7 @@ import OrgChart from './components/OrgChart'
 import CSVUploader from './components/CSVUploader'
 import DataSheet from './components/DataSheet'
 import HomePage from './components/HomePage'
+import DocsPage from './components/DocsPage'
 import sampleCsv from './data/sample.csv?raw'
 
 const parseCsv = (text) => Papa.parse(text, { header: true, skipEmptyLines: true }).data
@@ -36,6 +37,7 @@ function persistOrgs(orgs) {
 
 function getInitView() {
   const h = window.location.hash
+  if (h === '#docs') return 'docs'
   return (h.startsWith('#data=') || h.startsWith('#id=') || h === '#new') ? 'chart' : 'home'
 }
 
@@ -75,7 +77,9 @@ export default function App() {
   useEffect(() => {
     const handler = () => {
       const h = window.location.hash
-      if (!h || h === '#' || h === '#home') {
+      if (h === '#docs') {
+        setView('docs')
+      } else if (!h || h === '#' || h === '#home') {
         setView('home')
         setOrgs(loadOrgs())
         setChartState(null)
@@ -104,6 +108,11 @@ export default function App() {
     setOrgs(loadOrgs())
     setSheetOpen(false)
     history.pushState(null, '', window.location.pathname)
+  }, [])
+
+  const goDocs = useCallback(() => {
+    setView('docs')
+    history.pushState(null, '', '#docs')
   }, [])
 
   const openChart = useCallback((org) => {
@@ -208,6 +217,10 @@ export default function App() {
     history.pushState(null, '', '#new')
   }, [])
 
+  if (view === 'docs') {
+    return <DocsPage onBack={goHome} />
+  }
+
   if (view === 'home') {
     return (
       <HomePage
@@ -218,6 +231,7 @@ export default function App() {
         onDuplicate={duplicateOrg}
         onFile={handleFile}
         onSample={loadSample}
+        onDocs={goDocs}
       />
     )
   }
