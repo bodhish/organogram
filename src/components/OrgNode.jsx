@@ -15,7 +15,7 @@ export function getDeptColor(dept) {
   return PALETTE[hashStr(dept) % PALETTE.length]
 }
 
-export default function OrgNode({ node, width, height }) {
+export default function OrgNode({ node, width, height, onToggle }) {
   const { data } = node
   const color = getDeptColor(data.department)
   const isOpen = data.is_open === 'true'
@@ -39,6 +39,15 @@ export default function OrgNode({ node, width, height }) {
         <div className="org-node__title" title={data.title}>{data.title}</div>
         <div className="org-node__dept" style={{ color }}>{data.department}</div>
       </div>
+      {onToggle && (
+        <button
+          className={`node-toggle${node.isCollapsed ? ' node-toggle--collapsed' : ''}`}
+          onClick={e => { e.stopPropagation(); onToggle(node.id) }}
+          title={node.isCollapsed ? 'Expand' : 'Collapse'}
+        >
+          {node.isCollapsed ? '+' : '−'}
+        </button>
+      )}
     </div>
   )
 }

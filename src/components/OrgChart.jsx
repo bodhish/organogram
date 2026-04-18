@@ -2,10 +2,10 @@ import { useMemo, useRef, useState, useCallback, useEffect } from 'react'
 import { stratify } from 'd3-hierarchy'
 import OrgNode, { getDeptColor } from './OrgNode'
 
-export const NODE_W = 160
-export const NODE_H = 68
+export const NODE_W = 170
+export const NODE_H = 78
 const H_GAP = 14
-const V_GAP = 56
+const V_GAP = 60
 const MAX_ROWS = 2
 
 function expandRows(rows) {
@@ -23,6 +23,13 @@ function expandRows(rows) {
   return out
 }
 
+function resolveChildCols(node, n) {
+  if (node.id === VIRTUAL_ROOT_ID) return n
+  const dataCols = parseInt(node.data?.cols)
+  if (!isNaN(dataCols) && dataCols > 0) return Math.min(dataCols, n)
+  return n <= 3 ? n : Math.max(Math.ceil(n / MAX_ROWS), 1)
+}
+
 // Bottom-up: compute bounding box of each subtree
 function computeSize(node) {
   if (!node.children?.length) {
@@ -32,7 +39,7 @@ function computeSize(node) {
   node.children.forEach(computeSize)
 
   const n = node.children.length
-  const cols = node.id === VIRTUAL_ROOT_ID ? n : (n <= 3 ? n : Math.max(Math.ceil(n / MAX_ROWS), 1))
+  const cols = resolveChildCols(node, n)
   const numRows = Math.ceil(n / cols)
   let maxW = NODE_W
   let totalH = NODE_H + V_GAP
@@ -55,7 +62,7 @@ function assignPositions(node, cx, y) {
   if (!node.children?.length) return
 
   const n = node.children.length
-  const cols = node.id === VIRTUAL_ROOT_ID ? n : (n <= 3 ? n : Math.max(Math.ceil(n / MAX_ROWS), 1))
+  const cols = resolveChildCols(node, n)
   const numRows = Math.ceil(n / cols)
   let rowY = y + NODE_H + V_GAP
 
@@ -74,7 +81,7 @@ function assignPositions(node, cx, y) {
 
 const VIRTUAL_ROOT_ID = '__vroot__'
 
-function buildChart(rows) {
+function buildChart(rows, collapsedIds = new Set(), allByManager = {}) {
   const expanded = expandRows(rows)
   const rootRows = expanded.filter(r => !r.manager_id)
   const multiRoot = rootRows.length > 1
@@ -121,6 +128,8 @@ function buildChart(rows) {
       x: n.x + offsetX,
       y: n.y + pad,
       isRoot: n.depth === 0 || (multiRoot && n.depth === 1),
+      hasChildren: !!(allByManager[n.id] || n.children?.length),
+      isCollapsed: collapsedIds.has(n.id),
     })
   })
 
@@ -140,15 +149,50 @@ function buildChart(rows) {
   return { nodes, links, width: w, height: h }
 }
 
+function getVisibleRows(rows, collapsedIds) {
+  if (!collapsedIds.size) return rows
+  const collapsedSet = new Set()
+  // BFS: find all descendants of collapsed nodes
+  const byManager = {}
+  rows.forEach(r => {
+    if (r.manager_id) (byManager[r.manager_id] ||= []).push(r.id)
+  })
+  const queue = [...collapsedIds]
+  while (queue.length) {
+    const id = queue.shift()
+    ;(byManager[id] || []).forEach(cid => {
+      collapsedSet.add(cid)
+      queue.push(cid)
+    })
+  }
+  return rows.filter(r => !collapsedSet.has(r.id))
+}
+
 export default function OrgChart({ rows }) {
   const vpRef = useRef(null)
   const [tf, setTf] = useState({ x: 0, y: 0, scale: 1 })
   const pan = useRef({ active: false, lastX: 0, lastY: 0 })
+  const [collapsed, setCollapsed] = useState(new Set())
+
+  const toggleCollapse = useCallback(id => {
+    setCollapsed(prev => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }, [])
+
+  const allByManager = useMemo(() => {
+    const m = {}
+    rows.forEach(r => { if (r.manager_id) (m[r.manager_id] ||= []).push(r.id) })
+    return m
+  }, [rows])
 
   const { nodes, links, width, height, error } = useMemo(() => {
-    try { return { ...buildChart(rows), error: null } }
+    const visible = getVisibleRows(rows, collapsed)
+    try { return { ...buildChart(visible, collapsed, allByManager), error: null } }
     catch (e) { return { nodes: [], links: [], width: 0, height: 0, error: e.message } }
-  }, [rows])
+  }, [rows, collapsed, allByManager])
 
   const fitToScreen = useCallback(() => {
     const vp = vpRef.current
@@ -232,7 +276,7 @@ export default function OrgChart({ rows }) {
               <path key={l.id} d={l.d} fill="none" stroke="#cbd5e1" strokeWidth={1.5} />
             ))}
           </svg>
-          {nodes.map(n => <OrgNode key={n.id} node={n} width={NODE_W} height={NODE_H} />)}
+          {nodes.map(n => <OrgNode key={n.id} node={n} width={NODE_W} height={NODE_H} onToggle={n.hasChildren ? toggleCollapse : null} />)}
         </div>
 
         <div className="legend">

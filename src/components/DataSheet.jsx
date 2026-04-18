@@ -9,7 +9,7 @@ export default function DataSheet({ rows, onChange, onClose }) {
 
   const addRow = () => {
     const newId = String(Math.max(0, ...rows.map(r => parseInt(r.id) || 0)) + 1)
-    onChange([...rows, { id: newId, name: 'New Person', title: '', department: '', manager_id: '', is_open: 'false' }])
+    onChange([...rows, { id: newId, name: 'New Person', title: '', department: '', manager_id: '', is_open: 'false', cols: '' }])
   }
 
   const deleteRow = id => onChange(rows.filter(r => r.id !== id))
@@ -39,6 +39,7 @@ export default function DataSheet({ rows, onChange, onClose }) {
               <th style={{ width: 120 }}>Department</th>
               <th style={{ width: 150 }}>Reports To</th>
               <th style={{ width: 52 }}>Open</th>
+              <th style={{ width: 52 }} title="Max children per row">Cols</th>
               <th style={{ width: 36 }}></th>
             </tr>
           </thead>
@@ -96,6 +97,19 @@ export default function DataSheet({ rows, onChange, onClose }) {
                       className="cell-checkbox"
                       checked={isOpen}
                       onChange={e => update(row.id, 'is_open', e.target.checked ? 'true' : 'false')}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      className="cell-input"
+                      type="number"
+                      min="1"
+                      max="20"
+                      value={row.cols || ''}
+                      placeholder="auto"
+                      title="Max direct reports per row"
+                      onChange={e => update(row.id, 'cols', e.target.value)}
+                      style={{ textAlign: 'center' }}
                     />
                   </td>
                   <td>
