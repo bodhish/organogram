@@ -15,6 +15,7 @@ export default function DataSheet({ rows, onChange, onClose }) {
   const deleteRow = id => onChange(rows.filter(r => r.id !== id))
 
   const depts = [...new Set(rows.map(r => r.department).filter(Boolean))]
+  const deptListId = 'dept-options'
 
   return (
     <div className="sheet">
@@ -42,6 +43,9 @@ export default function DataSheet({ rows, onChange, onClose }) {
             </tr>
           </thead>
           <tbody>
+            <datalist id={deptListId}>
+              {depts.map(d => <option key={d} value={d} />)}
+            </datalist>
             {rows.map((row, i) => {
               const color = getDeptColor(row.department)
               const isOpen = row.is_open === 'true'
@@ -65,17 +69,14 @@ export default function DataSheet({ rows, onChange, onClose }) {
                     />
                   </td>
                   <td>
-                    <select
-                      className="cell-select"
+                    <input
+                      className="cell-input"
+                      list={deptListId}
                       value={row.department}
+                      placeholder="Department"
                       onChange={e => update(row.id, 'department', e.target.value)}
                       style={{ color: getDeptColor(row.department) }}
-                    >
-                      {depts.map(d => <option key={d} value={d}>{d}</option>)}
-                      {!depts.includes(row.department) && row.department &&
-                        <option value={row.department}>{row.department}</option>}
-                      <option value="">— none</option>
-                    </select>
+                    />
                   </td>
                   <td>
                     <select
