@@ -26,6 +26,10 @@ Ask Claude (or any AI with the organogram skill) to build you an org chart:
 
 Claude will generate the CSV, encode it, and hand you a ready-to-open URL at `organogram.pages.dev`.
 
+### Installing the skill
+
+The skill file is included in this repo at [`.claude/skills/organogram/SKILL.md`](.claude/skills/organogram/SKILL.md). Copy it into your own `~/.claude/skills/organogram/` directory and Claude Code will pick it up automatically.
+
 ---
 
 ## CSV format
