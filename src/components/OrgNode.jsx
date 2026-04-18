@@ -1,16 +1,18 @@
-export const DEPT_COLORS = {
-  Leadership:   '#7C3AED',
-  Engineering:  '#2563EB',
-  Design:       '#DB2777',
-  Product:      '#059669',
-  Operations:   '#D97706',
-  Partnerships: '#EA580C',
-  Finance:      '#0891B2',
-  HR:           '#DC2626',
+const PALETTE = [
+  '#7C3AED', '#2563EB', '#DB2777', '#059669',
+  '#D97706', '#EA580C', '#0891B2', '#DC2626',
+  '#0D9488', '#9333EA', '#65A30D', '#BE185D',
+]
+
+function hashStr(str) {
+  let h = 0
+  for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0
+  return Math.abs(h)
 }
 
 export function getDeptColor(dept) {
-  return DEPT_COLORS[dept] ?? '#64748B'
+  if (!dept) return '#64748B'
+  return PALETTE[hashStr(dept) % PALETTE.length]
 }
 
 export default function OrgNode({ node, width, height }) {
